@@ -71,7 +71,7 @@ int count(Node* r){
     if (p !=NULL) c++;
     if (r->Right !=NULL) c++;
 }
-*/
+
 
 int count(Node* r){
     if(r == NULL) return 0;
