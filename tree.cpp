@@ -2,14 +2,15 @@
 
 using namespace std;
 
+// Tao kieu du lieu node
 struct Node{
     int id;
     Node* Left;
     Node* Right;
 };
 
+// Tim va tra ve con tro tro den nut co id bang v tren cay co goc la r
 Node* find(Node* r, int v){
-    //Tim va tra ve con tro tro den nut co id bang v tren cay goc la r
     if (r == NULL) return NULL;
     if (r->id == v) return r;
     Node* p = r->Left;
@@ -21,6 +22,7 @@ Node* find(Node* r, int v){
     return NULL;
 }
 
+// Tao node co gia tri v
 Node* makeNode(int v){
     Node* p = new Node;
     p->id = v;
@@ -29,25 +31,26 @@ Node* makeNode(int v){
     return p;
 }
 
+// Chen nut co id = v vao cuoi danh sach nut con cua node p, tra ve con tro tro den goc cua cay
 Node* insertLastChild(Node* r, Node* p, int v){
-    //Tao ra 1 nut co dinh danh la v, chen vao cuoi danh sach nut con cua p tra ve con tro tro den nut goc cua cay thu duoc
     if(r == NULL) return NULL;
     if(p == NULL) return NULL;
     Node* q = makeNode(v);
     Node* h = p->Left;
-    if(h == NULL) p->Left = q; //
+    if(h == NULL) p->Left = q;
     else{
         while (h->Right != NULL) h= h->Right;
         h->Right = q;
     }
     return r;
 }
-
+// Chen nut co id = v vao cuoi danh sach nut con cua node co id = u, tra ve con tro tro den goc cua cay
 Node* insertLastChildID(Node* r, int u, int v){
     Node* p = find(r,u);
     return insertLastChild(r,p,v);
 }
 
+// In cay ra man hinh
 void printTree(Node* r){
     if (r == NULL) return;
     Node* p = r->Left;
@@ -64,15 +67,7 @@ void printTree(Node* r){
     }
 }
 
-int count(Node* r){
-    int c;
-    if (r==NULL) return;
-    Node* p = r->Left;
-    if (p !=NULL) c++;
-    if (r->Right !=NULL) c++;
-}
-
-
+// Dem so node trong cay
 int count(Node* r){
     if(r == NULL) return 0;
     int c = 1;
@@ -84,6 +79,7 @@ int count(Node* r){
     return c;
 }
 
+// Dem so la cua cay
 int countLeaves(Node* r){
     if(r == NULL) return 0;
     int c = 0;
@@ -96,10 +92,12 @@ int countLeaves(Node* r){
     return c;
 }
 
+// Tinh chieu cao cua cay
 int height(Node* r, int v){
 
 }
 
+// Tim node cha cua node r
 Node* parent(Node* r, int v){
     Node* p = find(r,v);
     if (r == NULL) return NULL;
@@ -113,18 +111,42 @@ Node* parent(Node* r, int v){
     return NULL;
 }
 
+// Duyet theo thu tu truoc
 void preOrder(Node* r){
-
+    if(r == NULL) return;
+    cout << r->id;
+    Node* p = r->Left;
+    while(p!=NULL){
+        preOrder(p);
+        p = p->Right;
+    }
 }
 
+// Duyet theo thu tu giua
 void inOrder(Node* r){
-
+    if(r == NULL) return;
+    Node* p = r->Left;
+    inOrder(p);
+    cout << r->id;
+    if(p != NULL) p = p->Right;
+    while(p != NULL){
+        inOrder(p);
+        p = p->Right;
+    }
 }
 
+// Duyet theo thu tu sau
 void postOrder(Node* r){
-
+    if(r == NULL) return;
+    Node* p = r->Left;
+    while(p!=NULL){
+        postOrder(p);
+        p = p->Right;
+    }
+    cout << r->id;
 }
 
+// Ham main
 int main()
 {
     Node* root = makeNode(10);
@@ -143,8 +165,7 @@ int main()
     root = insertLastChildID(root,4,9);
     printTree(root);
 
-    cout << "so nut" << count(root) << endl;
-    cout << "The number of leaves is: " << countLeaves(root) <<endl;
-    cout << "Parent: " << parent(root,6)->id <<endl;
+    //cout << "so nut" << count(root) << endl;
+    //cout << "The number of leaves is: " << countLeaves(root) <<endl;
+    //cout << "Parent: " << parent(root,6)->id <<endl;
 }
-
