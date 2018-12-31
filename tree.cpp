@@ -44,6 +44,7 @@ Node* insertLastChild(Node* r, Node* p, int v){
     }
     return r;
 }
+
 // Chen nut co id = v vao cuoi danh sach nut con cua node co id = u, tra ve con tro tro den goc cua cay
 Node* insertLastChildID(Node* r, int u, int v){
     Node* p = find(r,u);
@@ -93,8 +94,30 @@ int countLeaves(Node* r){
 }
 
 // Tinh chieu cao cua cay
-int height(Node* r, int v){
+int height(Node* p){
+    if(p == NULL) return 0;
+    int maxh = 0;
+    Node* q = p->Left;
+    while(q != NULL){
+        int h = height(q);
+        if(h > maxh) maxh = h;
+        q = q->Right;
+    }
+    return maxh + 1;
+}
 
+// Tinh chieu sau cua node co id = v co goc la node r
+int depth(Node* r, int v, int d){
+    if(r == NULL) return -1;
+    if(r->id == v) return d;
+    Node* p = r->Left;
+    while(p != NULL){
+        if(p->id == v) return d+1;
+        int dv = depth(p, v, d+1);
+        if(dv > 0) return dv;
+        p = p->Right;
+    }
+    return -1;
 }
 
 // Tim node cha cua node r
@@ -165,7 +188,11 @@ int main()
     root = insertLastChildID(root,4,9);
     printTree(root);
 
-    //cout << "so nut" << count(root) << endl;
-    //cout << "The number of leaves is: " << countLeaves(root) <<endl;
-    //cout << "Parent: " << parent(root,6)->id <<endl;
+    Node* p = find(root, 3);
+
+    cout << "so nut" << count(root) << endl;
+    cout << "The number of leaves is: " << countLeaves(root) <<endl;
+    cout << "Parent: " << parent(root,6)->id <<endl;
+    cout << "The height of node 3 is: " << height(p) << endl;
+    cout << "The depth of node 3 is: " << depth(root, 3, 1) << endl;
 }
